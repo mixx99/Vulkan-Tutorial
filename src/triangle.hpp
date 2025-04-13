@@ -1,40 +1,45 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
-//std
-#include <vector>
+// std
 #include <optional>
+#include <vector>
 namespace vtt // vulkan triangle tutorial
 {
 class Triangle {
-    public:
-        void run();
-    
-        struct QueueFamilyIndices
-        {
-            std::optional<uint32_t> graphicsFamily;
-        };
-    private:
-        GLFWwindow* window;
-        VkInstance instance;
-        const uint32_t WIDTH = 800;
-        const uint32_t HEIGHT = 600;
+public:
+  void run();
 
-        const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
-        #ifdef NDEBUG
-            const bool enableValidationLayers = false;
-        #else
-            const bool enableValidationLayers = true;
-        #endif
-    private:
-        void initWindow();
-        void initVulkan();
-        void mainLoop();
-        void cleanup();
-        void createInstance();
-        bool checkValidationLayerSupport();
-        void pickPhysicalDevice();
-        bool isDeviceSuitable(const VkPhysicalDevice& device);
-        Triangle::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
-    };
+  struct QueueFamilyIndices {
+    std::optional<uint32_t> graphicsFamily;
+  };
+
+private:
+  GLFWwindow *window;
+  VkInstance instance;
+  const uint32_t WIDTH = 800;
+  const uint32_t HEIGHT = 600;
+  VkDevice device;
+  VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+  VkQueue graphicsQueue;
+
+  const std::vector<const char *> validationLayers = {
+      "VK_LAYER_KHRONOS_validation"};
+#ifdef NDEBUG
+  const bool enableValidationLayers = false;
+#else
+  const bool enableValidationLayers = true;
+#endif
+private:
+  void initWindow();
+  void initVulkan();
+  void mainLoop();
+  void cleanup();
+  void createInstance();
+  bool checkValidationLayerSupport();
+  void pickPhysicalDevice();
+  bool isDeviceSuitable(const VkPhysicalDevice &device);
+  Triangle::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+  void createLogicalDevice();
+};
 } // namespace vtt
