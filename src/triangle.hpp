@@ -1,9 +1,9 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
-#include <optional>
 //std
 #include <vector>
+#include <optional>
 namespace vtt // vulkan triangle tutorial
 {
 class Triangle {
