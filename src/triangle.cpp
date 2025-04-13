@@ -1,5 +1,4 @@
 #include "triangle.hpp"
-
 //std
 #include <stdexcept>
 #include <iostream>
@@ -31,8 +30,55 @@ namespace vtt
     void Triangle::initVulkan()
     {
         createInstance();
+        pickPhysicalDevice();
     }
 
+    void Triangle::pickPhysicalDevice()
+    {
+        VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+        uint32_t deviceCount = 0;
+        vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+        if(deviceCount == 0)
+        {
+            throw std::runtime_error("Failed to find GPUs with Vulkan support");
+        }
+        std::vector<VkPhysicalDevice> devices(deviceCount);
+        vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+        for(const auto& device : devices)
+        {
+            if(isDeviceSuitable(device))
+            {
+                physicalDevice = device;
+                break;
+            }
+        }
+        if(physicalDevice == VK_NULL_HANDLE)
+            throw std::runtime_error("Failed to find suitable GPU");
+    }
+    bool Triangle::isDeviceSuitable(const VkPhysicalDevice& device)
+    {
+        QueueFamilyIndices indicies = findQueueFamilies(device);
+        return indicies.graphicsFamily.has_value(); // we can also add to struct method isComplete
+    }
+    Triangle::QueueFamilyIndices Triangle::findQueueFamilies(VkPhysicalDevice device) 
+    {
+        Triangle::QueueFamilyIndices indices;
+
+        uint32_t queueFamilyCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+        std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount,queueFamilies.data());
+
+        int i = 0;
+        for(const auto& queueFamily : queueFamilies)
+        {
+            if(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+                indices.graphicsFamily = i;
+            ++i;
+        }
+        return indices;
+    }
     void Triangle::mainLoop()
     {
         while(!glfwWindowShouldClose(window))
@@ -40,14 +86,12 @@ namespace vtt
             glfwPollEvents();
         }
     }
-
     void Triangle::cleanup()
     {
         vkDestroyInstance(instance, nullptr);
         glfwDestroyWindow(window);
         glfwTerminate();
     }
-
     bool Triangle::checkValidationLayerSupport()
     {
         uint32_t layerCount;
@@ -141,4 +185,4 @@ namespace vtt
         }
         return result;
     }
-}
+} // namespace vtt

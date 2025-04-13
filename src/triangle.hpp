@@ -1,15 +1,19 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
-
+#include <optional>
 //std
 #include <vector>
-namespace vtt
-{ // vulkan triangle tutorial
+namespace vtt // vulkan triangle tutorial
+{
 class Triangle {
     public:
         void run();
     
+        struct QueueFamilyIndices
+        {
+            std::optional<uint32_t> graphicsFamily;
+        };
     private:
         GLFWwindow* window;
         VkInstance instance;
@@ -29,5 +33,8 @@ class Triangle {
         void cleanup();
         void createInstance();
         bool checkValidationLayerSupport();
+        void pickPhysicalDevice();
+        bool isDeviceSuitable(const VkPhysicalDevice& device);
+        Triangle::QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
     };
 } // namespace vtt
