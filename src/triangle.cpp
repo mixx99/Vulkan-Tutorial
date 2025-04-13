@@ -4,8 +4,14 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
+#include <assert.h>
 namespace vtt
 {
+    bool checkAllSupportedExtensions(
+        const uint32_t& glfwExtensionCount, 
+        const std::vector<VkExtensionProperties>& extensions,
+        const char** glfwExtensions);
+
     void Triangle::run() 
     {
         initWindow();
@@ -101,27 +107,38 @@ namespace vtt
         if(result != VK_SUCCESS)
             throw std::runtime_error("Failed To Vulkan Instance");
 
-#if 0 // Challenge from VK tutorial. Print all supported extensions.
         uint32_t extensionCount = 0;
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
         std::vector<VkExtensionProperties> extensions(extensionCount);
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-        std::cout << "available extensions:\n";
-
-        for(int i = 0; i < glfwExtensionCount; ++i)
+        
+        // Challenge from VKtutorial
+        if(checkAllSupportedExtensions(glfwExtensionCount, extensions, glfwExtensions))
+            std::cout << "All Extensions are good" << std::endl;
+        else
+            std::cerr << "Something went wrong with some Extensions.";
+    }
+    bool checkAllSupportedExtensions(
+        const uint32_t& glfwExtensionCount, 
+        const std::vector<VkExtensionProperties>& extensions,
+        const char** glfwExtensions)
+    {
+        assert(glfwExtensions != nullptr);
+        bool result = true;
+        for(uint32_t i = 0; i < glfwExtensionCount; ++i)
         {
             bool found = false;
             for(const auto &extension : extensions)
             {
                 if(strcmp(extension.extensionName, glfwExtensions[i]))
-                {
-                    std::cout << "MATCH: " << extension.extensionName << std::endl;
                     found = true;
-                }
             }
             if(!found)
-                std::cout << "NOT MATCH: " << glfwExtensions[i] << std::endl;
+            {
+                std::cerr << "NOT MATCH EXTENSION: " << glfwExtensions[i] << std::endl;
+                result = false;
+            }
         }
-#endif
+        return result;
     }
 }
