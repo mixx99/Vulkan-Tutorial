@@ -7,6 +7,7 @@ target_sources(VulkanTutorial PRIVATE
     src/main.cpp 
     src/triangle.cpp
     src/device.cpp
+    src/window.cpp
     )
 
 find_package(Vulkan REQUIRED)
