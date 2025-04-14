@@ -12,17 +12,10 @@ bool checkAllSupportedExtensions(
     const char **glfwExtensions);
 
 void Triangle::run() {
-  initWindow();
+  window.initWindow();
   initVulkan();
   mainLoop();
   cleanup();
-}
-
-void Triangle::initWindow() {
-  glfwInit();
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-  window = glfwCreateWindow(WIDTH, HEIGHT, "VulkanTutorial", nullptr, nullptr);
 }
 
 void Triangle::initVulkan() {
@@ -32,14 +25,14 @@ void Triangle::initVulkan() {
 }
 
 void Triangle::mainLoop() {
-  while (!glfwWindowShouldClose(window)) {
+  while (window.isShoudClose()) {
     glfwPollEvents();
   }
 }
 void Triangle::cleanup() {
   vkDestroyDevice(device.getDevice(), nullptr);
   vkDestroyInstance(instance, nullptr);
-  glfwDestroyWindow(window);
+  window.DestroyWindow();
   glfwTerminate();
 }
 bool Triangle::checkValidationLayerSupport() {

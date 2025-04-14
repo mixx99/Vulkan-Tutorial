@@ -4,9 +4,11 @@
 #include <vulkan/vulkan.h>
 
 #include "device.hpp"
+#include "window.hpp"
 // std
 #include <optional>
 #include <vector>
+
 namespace vtt // vulkan triangle tutorial
 {
 class Triangle {
@@ -14,12 +16,10 @@ public:
   void run();
 
 private:
-  GLFWwindow *window;
   VkInstance instance;
-  const uint32_t WIDTH = 800;
-  const uint32_t HEIGHT = 600;
 
   Device device;
+  Window window;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
@@ -29,7 +29,6 @@ private:
   const bool enableValidationLayers = true;
 #endif
 private:
-  void initWindow();
   void initVulkan();
   void mainLoop();
   void cleanup();
