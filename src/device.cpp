@@ -1,9 +1,9 @@
 #include "device.hpp"
 
 // std
+#include <set>
 #include <stdexcept>
 #include <vector>
-#include <set>
 namespace vtt {
 void Device::pickPhysicalDevice(const VkInstance &instance) {
   uint32_t deviceCount = 0;
@@ -46,10 +46,10 @@ QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
     vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
     if (presentSupport) {
       indices.presentFamily = i;
+    }
+    ++i;
   }
-  ++i;
-  }
-  if(!indices.graphicsFamily || !indices.presentFamily)
+  if (!indices.graphicsFamily || !indices.presentFamily)
     throw std::runtime_error("Failed to find suitable families");
 
   return indices;
@@ -57,21 +57,23 @@ QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
 void Device::createLogicalDevice() {
   QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
   std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
+  std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(),
+                                            indices.presentFamily.value()};
 
-float queuePriority = 1.0f;
-for (uint32_t queueFamily : uniqueQueueFamilies) {
+  float queuePriority = 1.0f;
+  for (uint32_t queueFamily : uniqueQueueFamilies) {
     VkDeviceQueueCreateInfo queueCreateInfo{};
     queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     queueCreateInfo.queueFamilyIndex = queueFamily;
     queueCreateInfo.queueCount = 1;
     queueCreateInfo.pQueuePriorities = &queuePriority;
     queueCreateInfos.push_back(queueCreateInfo);
-}
+  }
   VkPhysicalDeviceFeatures deviceFeatures{};
   VkDeviceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-  createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+  createInfo.queueCreateInfoCount =
+      static_cast<uint32_t>(queueCreateInfos.size());
   createInfo.pQueueCreateInfos = queueCreateInfos.data();
   createInfo.pEnabledFeatures = &deviceFeatures;
   createInfo.enabledExtensionCount = 0;
@@ -90,8 +92,7 @@ for (uint32_t queueFamily : uniqueQueueFamilies) {
 
   vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 }
-void Device::setSurfaceKHR(const VkSurfaceKHR& surface_2)
-{
+void Device::setSurfaceKHR(const VkSurfaceKHR &surface_2) {
   surface = surface_2;
 }
 VkDevice Device::getDevice() { return device; }

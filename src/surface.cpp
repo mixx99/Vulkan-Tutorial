@@ -8,7 +8,8 @@ void Surface::createSurface(Window &window, const VkInstance &instance) {
   createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
   createInfo.hwnd = glfwGetWin32Window(window.getWindow());
   createInfo.hinstance = GetModuleHandle(nullptr);
-  if(window.getWindow() == nullptr) std::cout << "asdasdsa";
+  if (window.getWindow() == nullptr)
+    std::cout << "asdasdsa";
   if (vkCreateWin32SurfaceKHR(instance, &createInfo, nullptr, &surface) !=
       VK_SUCCESS)
     throw std::runtime_error("Failed to create window surface!");
