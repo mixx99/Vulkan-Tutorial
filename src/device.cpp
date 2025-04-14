@@ -42,13 +42,16 @@ QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
   for (const auto &queueFamily : queueFamilies) {
     if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
       indices.graphicsFamily = i;
-    ++i;
     VkBool32 presentSupport = false;
     vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
     if (presentSupport) {
       indices.presentFamily = i;
   }
+  ++i;
   }
+  if(!indices.graphicsFamily || !indices.presentFamily)
+    throw std::runtime_error("Failed to find suitable families");
+
   return indices;
 }
 void Device::createLogicalDevice() {
