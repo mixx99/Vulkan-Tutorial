@@ -20,6 +20,8 @@ void Triangle::run() {
 
 void Triangle::initVulkan() {
   createInstance();
+  surface.createSurface(window, instance);
+  device.setSurfaceKHR(surface.getSurfaceKHR());
   device.pickPhysicalDevice(instance);
   device.createLogicalDevice();
 }
@@ -31,10 +33,12 @@ void Triangle::mainLoop() {
 }
 void Triangle::cleanup() {
   vkDestroyDevice(device.getDevice(), nullptr);
+  surface.destroySurface(instance);
   vkDestroyInstance(instance, nullptr);
   window.DestroyWindow();
   glfwTerminate();
 }
+
 bool Triangle::checkValidationLayerSupport() {
   uint32_t layerCount;
   vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -75,7 +79,8 @@ void Triangle::createInstance() {
   const char **glfwExtensions;
 
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
+  createInfo.enabledExtensionCount = glfwExtensionCount;
+  createInfo.ppEnabledExtensionNames = glfwExtensions;
   if (enableValidationLayers) {
     createInfo.enabledLayerCount =
         static_cast<uint32_t>(validationLayers.size());

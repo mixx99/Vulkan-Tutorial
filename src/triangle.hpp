@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include "surface.hpp"
 #include <vulkan/vulkan.h>
 
 #include "device.hpp"
@@ -20,6 +20,7 @@ private:
 
   Device device;
   Window window;
+  Surface surface;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
