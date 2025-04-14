@@ -75,8 +75,5 @@ void Device::createLogicalDevice() {
 
   vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 }
-VkDevice Device::getDevice()
-{
-  return device;
-}
+VkDevice Device::getDevice() { return device; }
 } // namespace vtt

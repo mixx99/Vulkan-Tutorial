@@ -15,7 +15,8 @@ public:
   bool isDeviceSuitable(const VkPhysicalDevice &device);
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   void createLogicalDevice();
+
 public:
-  VkDevice getDevice(); 
+  VkDevice getDevice();
 };
 } // namespace vtt
