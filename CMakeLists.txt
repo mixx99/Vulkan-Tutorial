@@ -6,6 +6,7 @@ add_executable(VulkanTutorial)
 target_sources(VulkanTutorial PRIVATE 
     src/main.cpp 
     src/triangle.cpp
+    src/device.cpp
     )
 
 find_package(Vulkan REQUIRED)
