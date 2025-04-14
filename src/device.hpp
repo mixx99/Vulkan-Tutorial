@@ -5,7 +5,7 @@
 
 namespace vtt {
 class Device {
-public:
+private:
   VkDevice device;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
   VkQueue graphicsQueue;
@@ -15,5 +15,7 @@ public:
   bool isDeviceSuitable(const VkPhysicalDevice &device);
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   void createLogicalDevice();
+public:
+  VkDevice getDevice(); 
 };
 } // namespace vtt

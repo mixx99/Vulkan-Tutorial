@@ -37,7 +37,7 @@ void Triangle::mainLoop() {
   }
 }
 void Triangle::cleanup() {
-  vkDestroyDevice(device.device, nullptr);
+  vkDestroyDevice(device.getDevice(), nullptr);
   vkDestroyInstance(instance, nullptr);
   glfwDestroyWindow(window);
   glfwTerminate();

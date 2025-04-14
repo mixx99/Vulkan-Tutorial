@@ -60,7 +60,7 @@ void Device::createLogicalDevice() {
   createInfo.queueCreateInfoCount = 1;
   createInfo.pEnabledFeatures = &deviceFeatures;
   createInfo.enabledExtensionCount = 0;
-#if 0
+#if 0 // TODO:
     if (enableValidationLayers) {
       createInfo.enabledLayerCount =
           static_cast<uint32_t>(validationLayers.size());
@@ -74,5 +74,9 @@ void Device::createLogicalDevice() {
     throw std::runtime_error("Failed to create logical device");
 
   vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
+}
+VkDevice Device::getDevice()
+{
+  return device;
 }
 } // namespace vtt
