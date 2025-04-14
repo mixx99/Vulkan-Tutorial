@@ -1,4 +1,4 @@
-
+#pragma once
 #include <GLFW/glfw3.h>
 
 namespace vtt {
@@ -11,5 +11,6 @@ public:
   void initWindow();
   bool isShoudClose();
   void DestroyWindow();
+  GLFWwindow *getWindow();
 };
 } // namespace vtt
