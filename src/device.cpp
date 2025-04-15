@@ -1,9 +1,9 @@
 #include "device.hpp"
 
 // std
-#include <set>
 #include <stdexcept>
-#include <vector>
+#include <set>
+#include <string>
 namespace vtt {
 void Device::pickPhysicalDevice(const VkInstance &instance) {
   uint32_t deviceCount = 0;
@@ -25,8 +25,24 @@ void Device::pickPhysicalDevice(const VkInstance &instance) {
 }
 bool Device::isDeviceSuitable(const VkPhysicalDevice &device) {
   QueueFamilyIndices indicies = findQueueFamilies(device);
-  return indicies.graphicsFamily
-      .has_value(); // we can also add to struct method isComplete
+  bool extensionsSupported = checkDeviceExtensionSupport(device);
+  return indicies.graphicsFamily.has_value() && extensionsSupported;
+}
+
+bool Device::checkDeviceExtensionSupport(VkPhysicalDevice device){
+  uint32_t extensionCount;
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+  std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+  std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+
+  for (const auto& extension : availableExtensions) {
+      requiredExtensions.erase(extension.extensionName);
+  }
+
+  return requiredExtensions.empty();
 }
 
 QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {

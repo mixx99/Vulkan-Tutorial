@@ -2,7 +2,7 @@
 
 #include "QueueFamilyIndices.hpp"
 #include <vulkan/vulkan.h>
-
+#include <vector>
 namespace vtt {
 class Device {
 private:
@@ -11,6 +11,7 @@ private:
   VkQueue graphicsQueue;
   VkSurfaceKHR surface;
   VkQueue presentQueue;
+  std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
 public:
   void pickPhysicalDevice(const VkInstance &instance);
@@ -18,6 +19,7 @@ public:
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   void createLogicalDevice();
   void setSurfaceKHR(const VkSurfaceKHR &surface_2);
+  bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 
 public:
   VkDevice getDevice();
