@@ -1,6 +1,7 @@
 #pragma once
-
+#include <GLFW/glfw3.h>
 #include "QueueFamilyIndices.hpp"
+#include "window.hpp"
 #include <vector>
 #include <vulkan/vulkan.h>
 namespace vtt {
@@ -11,8 +12,8 @@ private:
   VkQueue graphicsQueue;
   VkSurfaceKHR surface;
   VkQueue presentQueue;
-  std::vector<const char *> deviceExtensions = {
-      VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+  Window window;
+  std::vector<const char *> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
   struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;
@@ -21,15 +22,18 @@ private:
   };
 
 public:
+  void setWindow(Window window_2);
   void pickPhysicalDevice(const VkInstance &instance);
   bool isDeviceSuitable(const VkPhysicalDevice &device);
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   void createLogicalDevice();
+  VkDevice getDevice();
   void setSurfaceKHR(const VkSurfaceKHR &surface_2);
   bool checkDeviceExtensionSupport(VkPhysicalDevice device);
   SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-
-public:
-  VkDevice getDevice();
+  VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+  VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+  VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+  void Device::createSwapChain();
 };
 } // namespace vtt
