@@ -4,6 +4,9 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <cstdint>
+#include <limits>
+#include <algorithm>
 namespace vtt {
 void Device::pickPhysicalDevice(const VkInstance &instance) {
   uint32_t deviceCount = 0;
@@ -34,6 +37,55 @@ bool Device::isDeviceSuitable(const VkPhysicalDevice &device) {
   }
   return indicies.graphicsFamily.has_value() && extensionsSupported &&
          swapChainAdequate;
+}
+
+VkSurfaceFormatKHR Device::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
+  for (const auto& availableFormat : availableFormats) {
+      if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
+          return availableFormat;
+      }
+  }
+  return availableFormats[0];
+}
+
+void Device::setWindow(Window window_2){
+  window.setWindow(window_2);
+}
+
+VkPresentModeKHR Device::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
+  for (const auto& availablePresentMode : availablePresentModes) {
+      if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
+          return availablePresentMode;
+      }
+  }
+  return VK_PRESENT_MODE_FIFO_KHR;
+}
+
+VkExtent2D Device::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities){
+  if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
+    return capabilities.currentExtent;
+} else {
+    int width, height;
+    glfwGetFramebufferSize(window.getWindow(), &width, &height);
+
+    VkExtent2D actualExtent = {
+        static_cast<uint32_t>(width),
+        static_cast<uint32_t>(height)
+    };
+
+    actualExtent.width = std::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+    actualExtent.height = std::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+
+    return actualExtent;
+}
+}
+
+void Device::createSwapChain() {
+  SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
+
+  VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
+  VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
+  VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 }
 
 bool Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
