@@ -24,6 +24,7 @@ void Triangle::initVulkan() {
   device.setSurfaceKHR(surface.getSurfaceKHR());
   device.pickPhysicalDevice(instance);
   device.createLogicalDevice();
+  device.createSwapChain();
 }
 
 void Triangle::mainLoop() {
