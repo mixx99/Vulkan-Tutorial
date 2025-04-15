@@ -13,6 +13,10 @@ private:
   VkSurfaceKHR surface;
   VkQueue presentQueue;
   Window window;
+  VkSwapchainKHR swapChain;
+  std::vector<VkImage> swapChainImages;
+  VkFormat swapChainImageFormat;
+  VkExtent2D swapChainExtent;
   std::vector<const char *> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
   struct SwapChainSupportDetails {
@@ -35,5 +39,6 @@ public:
   VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
   VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
   void Device::createSwapChain();
+  VkSwapchainKHR Device::getSwapChain();
 };
 } // namespace vtt

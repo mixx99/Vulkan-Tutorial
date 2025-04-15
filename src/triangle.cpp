@@ -33,6 +33,7 @@ void Triangle::mainLoop() {
   }
 }
 void Triangle::cleanup() {
+  vkDestroySwapchainKHR(device.getDevice(), device.getSwapChain(), nullptr);
   vkDestroyDevice(device.getDevice(), nullptr);
   surface.destroySurface(instance);
   vkDestroyInstance(instance, nullptr);
