@@ -10,4 +10,5 @@ void Window::initWindow() {
 bool Window::isShoudClose() { return !glfwWindowShouldClose(window); }
 void Window::DestroyWindow() { glfwDestroyWindow(window); }
 GLFWwindow *Window::getWindow() { return window; }
+void Window::setWindow(Window window_2) { window = window_2.getWindow(); }
 } // namespace vtt

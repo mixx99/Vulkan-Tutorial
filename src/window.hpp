@@ -12,5 +12,6 @@ public:
   bool isShoudClose();
   void DestroyWindow();
   GLFWwindow *getWindow();
+  void setWindow(Window window_2);
 };
 } // namespace vtt
