@@ -6,10 +6,10 @@
 #include "device.hpp"
 #include "window.hpp"
 // std
-#include <optional>
-#include <vector>
 #include <fstream>
 #include <iostream>
+#include <optional>
+#include <vector>
 
 namespace vtt // vulkan triangle tutorial
 {
@@ -24,6 +24,10 @@ private:
   Window window;
   Surface surface;
   std::vector<VkImageView> swapChainImageViews;
+  VkRenderPass renderPass;
+  VkPipelineLayout pipelineLayout;
+  VkPipeline graphicsPipeline;
+  std::vector<VkFramebuffer> swapChainFramebuffers;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
@@ -40,19 +44,22 @@ private:
   bool checkValidationLayerSupport();
   void createImageViews();
   void createGraphicsPipeline();
-  VkShaderModule createShaderModule(const std::vector<char>& code);
-  static std::vector<char> readFile(const std::string& filename) {
+  void createRenderPass();
+  void createFramebuffers();
+
+  VkShaderModule createShaderModule(const std::vector<char> &code);
+  static std::vector<char> readFile(const std::string &filename) {
     std::cout << filename << std::endl;
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
     if (!file.is_open()) {
       throw std::runtime_error("failed to open file!");
     }
-    size_t fileSize = (size_t) file.tellg();
+    size_t fileSize = (size_t)file.tellg();
     std::vector<char> buffer(fileSize);
     file.seekg(0);
     file.read(buffer.data(), fileSize);
     file.close();
-  
+
     return buffer;
   }
 };
