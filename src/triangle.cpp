@@ -361,6 +361,7 @@ void Triangle::mainLoop() {
     glfwPollEvents();
     drawFrame();
   }
+  vkDeviceWaitIdle(device.getDevice());
 }
 
 void Triangle::drawFrame() {
