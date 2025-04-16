@@ -1,7 +1,7 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include "QueueFamilyIndices.hpp"
 #include "window.hpp"
+#include <GLFW/glfw3.h>
 #include <vector>
 #include <vulkan/vulkan.h>
 namespace vtt {
@@ -17,7 +17,8 @@ private:
   std::vector<VkImage> swapChainImages;
   VkFormat swapChainImageFormat;
   VkExtent2D swapChainExtent;
-  std::vector<const char *> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+  std::vector<const char *> deviceExtensions = {
+      VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
   struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;
@@ -35,12 +36,15 @@ public:
   void setSurfaceKHR(const VkSurfaceKHR &surface_2);
   bool checkDeviceExtensionSupport(VkPhysicalDevice device);
   SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-  VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-  VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-  VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+  VkSurfaceFormatKHR chooseSwapSurfaceFormat(
+      const std::vector<VkSurfaceFormatKHR> &availableFormats);
+  VkPresentModeKHR chooseSwapPresentMode(
+      const std::vector<VkPresentModeKHR> &availablePresentModes);
+  VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
   void Device::createSwapChain();
   VkSwapchainKHR Device::getSwapChain();
-  std::vector<VkImage>& getSwapChainImages();
+  std::vector<VkImage> &getSwapChainImages();
   VkFormat getSwapChainImageFormat();
+  VkExtent2D getSwapChainExtent();
 };
 } // namespace vtt
