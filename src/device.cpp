@@ -140,6 +140,10 @@ void Device::createSwapChain() {
   swapChainExtent = extent;
 }
 
+VkQueue Device::getGraphicsQueue() { return graphicsQueue; }
+
+VkQueue Device::getPresentQueue() { return presentQueue; }
+
 VkPhysicalDevice Device::getPhysicalDevice() { return physicalDevice; }
 
 VkSwapchainKHR Device::getSwapChain() { return swapChain; }
@@ -258,6 +262,7 @@ void Device::createLogicalDevice() {
     throw std::runtime_error("Failed to create logical device");
 
   vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
+  vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 }
 void Device::setSurfaceKHR(const VkSurfaceKHR &surface_2) {
   surface = surface_2;

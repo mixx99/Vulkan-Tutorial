@@ -47,5 +47,7 @@ public:
   VkFormat getSwapChainImageFormat();
   VkExtent2D getSwapChainExtent();
   VkPhysicalDevice getPhysicalDevice();
+  VkQueue getGraphicsQueue();
+  VkQueue getPresentQueue();
 };
 } // namespace vtt

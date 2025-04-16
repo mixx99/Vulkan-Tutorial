@@ -30,6 +30,9 @@ private:
   std::vector<VkFramebuffer> swapChainFramebuffers;
   VkCommandPool commandPool;
   VkCommandBuffer commandBuffer;
+  VkSemaphore imageAvailableSemaphore;
+  VkSemaphore renderFinishedSemaphore;
+  VkFence inFlightFence;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
@@ -51,6 +54,8 @@ private:
   void createCommandPool();
   void createCommandBuffer();
   void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+  void drawFrame();
+  void createSyncObjects();
 
   VkShaderModule createShaderModule(const std::vector<char> &code);
   static std::vector<char> readFile(const std::string &filename) {
