@@ -181,6 +181,10 @@ std::vector<VkImage>& Device::getSwapChainImages(){
   return swapChainImages;
 }
 
+VkFormat Device::getSwapChainImageFormat(){
+  return swapChainImageFormat;
+}
+
 Device::SwapChainSupportDetails Device::querySwapChainSupport(VkPhysicalDevice device) {
   SwapChainSupportDetails details;
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface,

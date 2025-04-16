@@ -41,5 +41,6 @@ public:
   void Device::createSwapChain();
   VkSwapchainKHR Device::getSwapChain();
   std::vector<VkImage>& getSwapChainImages();
+  VkFormat getSwapChainImageFormat();
 };
 } // namespace vtt
