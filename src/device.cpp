@@ -176,6 +176,11 @@ QueueFamilyIndices Device::findQueueFamilies(VkPhysicalDevice device) {
 
   return indices;
 }
+
+std::vector<VkImage>& Device::getSwapChainImages(){
+  return swapChainImages;
+}
+
 Device::SwapChainSupportDetails Device::querySwapChainSupport(VkPhysicalDevice device) {
   SwapChainSupportDetails details;
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface,

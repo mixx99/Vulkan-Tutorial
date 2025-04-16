@@ -40,5 +40,6 @@ public:
   VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
   void Device::createSwapChain();
   VkSwapchainKHR Device::getSwapChain();
+  std::vector<VkImage>& getSwapChainImages();
 };
 } // namespace vtt
