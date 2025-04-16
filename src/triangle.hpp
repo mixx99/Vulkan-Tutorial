@@ -21,6 +21,7 @@ private:
   Device device;
   Window window;
   Surface surface;
+  std::vector<VkImageView> swapChainImageViews;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
@@ -35,5 +36,6 @@ private:
   void cleanup();
   void createInstance();
   bool checkValidationLayerSupport();
+  void createImageViews();
 };
 } // namespace vtt
