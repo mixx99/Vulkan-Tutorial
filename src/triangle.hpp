@@ -28,6 +28,8 @@ private:
   VkPipelineLayout pipelineLayout;
   VkPipeline graphicsPipeline;
   std::vector<VkFramebuffer> swapChainFramebuffers;
+  VkCommandPool commandPool;
+  VkCommandBuffer commandBuffer;
 
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
@@ -46,6 +48,9 @@ private:
   void createGraphicsPipeline();
   void createRenderPass();
   void createFramebuffers();
+  void createCommandPool();
+  void createCommandBuffer();
+  void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
   VkShaderModule createShaderModule(const std::vector<char> &code);
   static std::vector<char> readFile(const std::string &filename) {
