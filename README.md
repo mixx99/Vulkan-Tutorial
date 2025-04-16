@@ -1,7 +1,7 @@
 # Vulkan Triangle (WIP)
 
 <a href="assets/triangle.png" target="_blank">
-  <img src="assets/triangle.png" width="400"/>
+  <img src="assets/triangle.png" width="800"/>
 </a>
 
 
