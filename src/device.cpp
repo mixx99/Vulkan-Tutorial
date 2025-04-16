@@ -140,6 +140,8 @@ void Device::createSwapChain() {
   swapChainExtent = extent;
 }
 
+VkPhysicalDevice Device::getPhysicalDevice() { return physicalDevice; }
+
 VkSwapchainKHR Device::getSwapChain() { return swapChain; }
 
 VkExtent2D Device::getSwapChainExtent() { return swapChainExtent; }

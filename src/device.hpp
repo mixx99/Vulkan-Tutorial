@@ -46,5 +46,6 @@ public:
   std::vector<VkImage> &getSwapChainImages();
   VkFormat getSwapChainImageFormat();
   VkExtent2D getSwapChainExtent();
+  VkPhysicalDevice getPhysicalDevice();
 };
 } // namespace vtt
