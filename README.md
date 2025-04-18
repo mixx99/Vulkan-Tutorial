@@ -19,7 +19,6 @@ To build the project, you will need:
 - [Vulkan SDK](https://vulkan.lunarg.com/) — for Vulkan API development tools
 
 ## 🛠 Build Instructions
-
 Clone this repository then open a terminal and run the following commands:
 
 ```bash
@@ -28,3 +27,4 @@ cd build
 cmake ..
 cmake --build .
 ```
+Currently supported on Windows only.  
