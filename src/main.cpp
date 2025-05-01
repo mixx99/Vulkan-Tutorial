@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "Triangle.hpp"
+#include "triangle.hpp"
 
 int main() {
   vtt::Triangle app;
